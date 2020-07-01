@@ -4,11 +4,14 @@ const questionContainer=document.querySelector(".option-container");
 const answersIndicator=document.querySelector(".answers-indicator");
 const nextBtn=document.getElementById("next");
 const previousBtn=document.getElementById("previous");
+const quizBox=document.querySelector(".quiz-box");
+const homeBox=document.querySelector(".home-box");
 
 let questionCounter=0;
 let currentQuestion;
 let availableQuestions=[];
 let answers=[];
+let currentOption=null;
 
 function setAvailableQuestions(){
     const totalQuestion=quiz.length;
@@ -27,9 +30,7 @@ function getNewQuestion(){
     }
     questionContainer.innerHTML='';
     questionNumber.innerHTML="Questio N°" + (questionCounter+1) + " of " + quiz.length;
-    
-    /*const questionIndex=availableQuestions[Math.floor(Math.random()*availableQuestions.length)]
-    currentQuestion=questionIndex;*/
+
     currentQuestion=quiz[questionCounter];
     questionText.innerHTML=currentQuestion.q;
     let currentObject=answers.filter((elt)=> elt.id===questionCounter.toString());
@@ -37,7 +38,7 @@ function getNewQuestion(){
         let styling="";
         if(Object.keys(currentObject).length !==0){
             if(currentObject[0].value===currentQuestion.options[i]){
-                styling="background-color:green !important";
+                styling="background-color:rgb(0, 100, 90) !important";
             }
         }
         questionContainer.innerHTML+='<div style="'+styling+'" id="'+questionCounter+'" class="option" onclick="optionClicked(this)">'+ currentQuestion.options[i] +'</div>';
@@ -77,9 +78,19 @@ function previous(){
 }
 
 function optionClicked(e){
+    if(currentOption===null){
+        currentOption=e;
+        e.classList.add('selected-option');
+    }
+    else if(currentOption!==e){
+        currentOption.classList.remove('selected-option');
+        e.classList.add('selected-option');
+        currentOption=e;
+    }
     const id=e.id;
     const value=e.innerHTML;
     const singleAnswer={};
+    //check if we already gave a solution to the current question
     const exist=answers.some((elt)=> elt.id===id);
     if(!exist){
         singleAnswer.id=id;
@@ -98,7 +109,11 @@ function optionClicked(e){
     const circle=document.getElementById('circle '+e.id);
     console.log(circle);
     circle.classList.add('checked')
-    next();
+}
+
+function start(){
+    quizBox.classList.remove('hide');
+    homeBox.classList.add('hide');
 }
 
 window.onload=function(){

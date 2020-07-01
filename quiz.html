@@ -4,16 +4,17 @@
 	<title>Quiz App</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="css/style.css">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
 </head>
 <body>
 
-	<div class="home-box custom-box hide">
+	<div class="home-box custom-box">
 		<h3>Instruction</h3>
 		<p>Total number of questions : <span class="total-question">5</span></p>
-		<button type="button" class="btn">Start quiz</button>
+		<button type="button" class="btn" id="start" onclick="start()">Start quiz</button>
 	</div>
 
-	<div class="quiz-box custom-box">
+	<div class="quiz-box custom-box hide">
 		<div class="question-number">
 		</div>
 		<div class="question-text">
@@ -21,8 +22,8 @@
 		<div class="option-container">
 		</div>
 		<div class="next-question-button">
-			<button type="button" class="btn hide" id="previous" onclick="previous()">Previous</button>
-			<button type="button" class="btn" id="next" onclick="next()">Next</button>
+			<button type="button" class="btn hide" id="previous" onclick="previous()"><i class="fa fa-arrow-left" aria-hidden="true"></i> Previous</button>
+			<button type="button" class="btn" id="next" onclick="next()">Next <i class="fa fa-arrow-right" aria-hidden="true"></i></button>
 		</div>
 		<div class="answers-indicator">
 		</div>
