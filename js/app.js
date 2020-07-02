@@ -12,6 +12,7 @@ let currentQuestion;
 let availableQuestions=[];
 let answers=[];
 let currentOption=null;
+let selected=[];
 
 function setAvailableQuestions(){
     const totalQuestion=quiz.length;
@@ -33,14 +34,22 @@ function getNewQuestion(){
 
     currentQuestion=quiz[questionCounter];
     questionText.innerHTML=currentQuestion.q;
+    selected=answers.filter(doc => doc.id==questionCounter);
     let currentObject=answers.filter((elt)=> elt.id===questionCounter.toString());
     for(let i=0;i<currentQuestion.options.length;i++){
         let styling="";
-        if(Object.keys(currentObject).length !==0){
+        /*if(Object.keys(currentObject).length !==0){
             if(currentObject[0].value===currentQuestion.options[i]){
                 styling="background-color:rgb(0, 100, 90) !important";
             }
-        }
+        }*/
+        selected.forEach(doc=>{
+            if(doc.value===currentQuestion.options[i]){
+                styling="background-color:rgb(0, 100, 90) !important";
+            }
+        })
+        console.log(selected);
+        
         questionContainer.innerHTML+='<div style="'+styling+'" id="'+questionCounter+'" class="option" onclick="optionClicked(this)">'+ currentQuestion.options[i] +'</div>';
     }
 }
@@ -78,7 +87,20 @@ function previous(){
 }
 
 function optionClicked(e){
-    if(currentOption===null){
+    const id=e.id;
+    const value=e.innerHTML;
+    const singleAnswer={};
+    if(e.classList.contains('selected-option')){
+        e.classList.remove('selected-option')
+        answers=answers.filter(doc => doc.value !== value);
+    }
+    else{
+        e.classList.add('selected-option')
+        singleAnswer.id=id;
+        singleAnswer.value=value;
+        answers.push(singleAnswer);
+    }
+    /*if(currentOption===null){
         currentOption=e;
         e.classList.add('selected-option');
     }
@@ -86,12 +108,9 @@ function optionClicked(e){
         currentOption.classList.remove('selected-option');
         e.classList.add('selected-option');
         currentOption=e;
-    }
-    const id=e.id;
-    const value=e.innerHTML;
-    const singleAnswer={};
+    }*/
     //check if we already gave a solution to the current question
-    const exist=answers.some((elt)=> elt.id===id);
+    /*const exist=answers.some((elt)=> elt.id===id);
     if(!exist){
         singleAnswer.id=id;
         singleAnswer.value=value;
@@ -104,7 +123,7 @@ function optionClicked(e){
             }
         });
         console.log('updated');
-    }
+    }*/
     console.log(answers);
     const circle=document.getElementById('circle '+e.id);
     console.log(circle);
