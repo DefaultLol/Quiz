@@ -168,3 +168,7 @@ body{
 .selected-option{
     background-color: #009688 !important;
 }
+.question-img {
+    width: 100px;
+    height:100px;
+}

@@ -38,11 +38,6 @@ function getNewQuestion(){
     let currentObject=answers.filter((elt)=> elt.id===questionCounter.toString());
     for(let i=0;i<currentQuestion.options.length;i++){
         let styling="";
-        /*if(Object.keys(currentObject).length !==0){
-            if(currentObject[0].value===currentQuestion.options[i]){
-                styling="background-color:rgb(0, 100, 90) !important";
-            }
-        }*/
         selected.forEach(doc=>{
             if(doc.value===currentQuestion.options[i]){
                 styling="background-color:rgb(0, 100, 90) !important";
@@ -50,7 +45,18 @@ function getNewQuestion(){
         })
         console.log(selected);
         
-        questionContainer.innerHTML+='<div style="'+styling+'" id="'+questionCounter+'" class="option" onclick="optionClicked(this)">'+ currentQuestion.options[i] +'</div>';
+        
+        if (currentQuestion.type==='image')
+        {
+            questionContainer.innerHTML+='<div style="'+styling+'" id="'+questionCounter+'" class="option" required onclick="optionClicked(this)">'+
+             currentQuestion.options[i] +'<br>'+'<img class="question-img" src="../Image/'+currentQuestion.image[i]+'">'+'</div>';
+    
+        }
+        else 
+        {
+            questionContainer.innerHTML+='<div style="'+styling+'" id="'+questionCounter+'" class="option" required onclick="optionClicked(this)">'+ 
+            currentQuestion.options[i] +'</div>';
+        }
     }
 }
 
@@ -73,14 +79,14 @@ function previous(){
     console.log(questionCounter);
     if(questionCounter <= 0 ){
         previousBtn.classList.add('hide');
-        console.log('ya feen ghadi');
+        
     }
     else{
         nextBtn.classList.remove('hide');
         questionCounter--;
         if(questionCounter <= 0 ){
             previousBtn.classList.add('hide');
-            console.log('ya feen ghadi');
+            
         }
         getNewQuestion();
     }
@@ -88,7 +94,8 @@ function previous(){
 
 function optionClicked(e){
     const id=e.id;
-    const value=e.innerHTML;
+
+    const value=e.innerHTML.split('<br')[0];
     const singleAnswer={};
     if(e.classList.contains('selected-option')){
         e.classList.remove('selected-option')
@@ -100,6 +107,7 @@ function optionClicked(e){
         singleAnswer.value=value;
         answers.push(singleAnswer);
     }
+
     /*if(currentOption===null){
         currentOption=e;
         e.classList.add('selected-option');
@@ -125,6 +133,14 @@ function optionClicked(e){
         console.log('updated');
     }*/
     console.log(answers);
+    answers.forEach(answer => {
+        if (answer.id==23){
+            console.log(answer.value)
+        }
+
+
+   });
+   
     const circle=document.getElementById('circle '+e.id);
     console.log(circle);
     circle.classList.add('checked')
