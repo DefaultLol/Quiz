@@ -134,8 +134,9 @@ function optionClicked(e){
     }*/
     console.log(answers);
     answers.forEach(answer => {
-        if (answer.id==23){
-            console.log(answer.value)
+        if (answer.id==21){
+             let ResultatDEQUIZZ =answer.value ;
+             console.log(ResultatDEQUIZZ);
         }
 
 
